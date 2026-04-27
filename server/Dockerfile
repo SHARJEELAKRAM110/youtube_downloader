@@ -1,9 +1,9 @@
 FROM node:18-alpine
 
-# Install Python, FFmpeg (for video/audio merging), and pip
+# Install Python, FFmpeg, and pip
 RUN apk add --no-cache python3 py3-pip ffmpeg \
     && python3 -m venv /opt/venv \
-    && /opt/venv/bin/pip install --no-cache-dir yt-dlp
+    && /opt/venv/bin/pip install --no-cache-dir -U "https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz"
 
 # Add venv to PATH so 'python' and 'yt-dlp' commands work
 ENV PATH="/opt/venv/bin:$PATH"

@@ -8,19 +8,31 @@ const os = require('os');
 
 // Use 'yt-dlp' directly since it is installed in our Docker PATH
 const YT_DLP_CMD = 'yt-dlp';
-const YT_DLP_ARGS = [
-  '--force-ipv4', // Often helps bypass IP bans
-  // Try to bypass the bot check by using iOS/Android clients
-  '--extractor-args', 'youtube:player_client=ios,android,web',
-];
+function getBaseYtDlpArgs() {
+  const args = [
+    '--force-ipv4', // Often helps bypass IP bans
+    // Try to bypass the bot check by using iOS/Android clients
+    '--extractor-args', 'youtube:player_client=ios,android,web',
+  ];
 
-// If you add a "Secret File" in Render named "cookies.txt", it mounts it here:
-const COOKIES_PATH = '/etc/secrets/cookies.txt';
-const TMP_COOKIES_PATH = path.join(os.tmpdir(), 'cookies.txt');
-if (fs.existsSync(COOKIES_PATH)) {
-  console.log('Found cookies file, copying to temp for authentication.');
-  fs.copyFileSync(COOKIES_PATH, TMP_COOKIES_PATH);
-  YT_DLP_ARGS.push('--cookies', TMP_COOKIES_PATH);
+  // If you add a "Secret File" in Render named "cookies.txt", it mounts it here:
+  const COOKIES_PATH = '/etc/secrets/cookies.txt';
+  const TMP_COOKIES_PATH = path.join(os.tmpdir(), 'cookies.txt');
+  
+  if (fs.existsSync(COOKIES_PATH)) {
+    try {
+      let content = fs.readFileSync(COOKIES_PATH, 'utf8');
+      // Fix malformed cookies file if user forgot the header
+      if (!content.includes('# Netscape HTTP Cookie File')) {
+        content = '# Netscape HTTP Cookie File\n' + content;
+      }
+      fs.writeFileSync(TMP_COOKIES_PATH, content);
+      args.push('--cookies', TMP_COOKIES_PATH);
+    } catch (e) {
+      console.error('Error fixing cookies file:', e);
+    }
+  }
+  return args;
 }
 
 /**
@@ -28,7 +40,7 @@ if (fs.existsSync(COOKIES_PATH)) {
  */
 function runYtDlp(args, timeoutMs = 30000) {
   return new Promise((resolve, reject) => {
-    const allArgs = [...YT_DLP_ARGS, ...args];
+    const allArgs = [...getBaseYtDlpArgs(), ...args];
     execFile(YT_DLP_CMD, allArgs, {
       maxBuffer: 10 * 1024 * 1024,
       timeout: timeoutMs,
@@ -236,7 +248,7 @@ router.get('/download', async (req, res) => {
 
     // Build yt-dlp command args — stream directly to stdout
     const dlpArgs = [
-      ...YT_DLP_ARGS,
+      ...getBaseYtDlpArgs(),
       '-f', itag,
       '--no-playlist',
       '--no-warnings',
