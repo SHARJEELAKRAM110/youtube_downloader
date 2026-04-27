@@ -19,14 +19,20 @@ function getBaseYtDlpArgs() {
   const COOKIES_PATH = '/etc/secrets/cookies.txt';
   const TMP_COOKIES_PATH = path.join(os.tmpdir(), 'cookies.txt');
   
-  if (fs.existsSync(COOKIES_PATH)) {
+  let cookiesContent = '';
+  if (process.env.YOUTUBE_COOKIES) {
+    cookiesContent = process.env.YOUTUBE_COOKIES;
+  } else if (fs.existsSync(COOKIES_PATH)) {
+    cookiesContent = fs.readFileSync(COOKIES_PATH, 'utf8');
+  }
+
+  if (cookiesContent) {
     try {
-      let content = fs.readFileSync(COOKIES_PATH, 'utf8');
       // Fix malformed cookies file if user forgot the header
-      if (!content.includes('# Netscape HTTP Cookie File')) {
-        content = '# Netscape HTTP Cookie File\n' + content;
+      if (!cookiesContent.includes('# Netscape HTTP Cookie File')) {
+        cookiesContent = '# Netscape HTTP Cookie File\n' + cookiesContent;
       }
-      fs.writeFileSync(TMP_COOKIES_PATH, content);
+      fs.writeFileSync(TMP_COOKIES_PATH, cookiesContent);
       args.push('--cookies', TMP_COOKIES_PATH);
     } catch (e) {
       console.error('Error fixing cookies file:', e);
@@ -41,13 +47,21 @@ function getBaseYtDlpArgs() {
 function runYtDlp(args, timeoutMs = 30000) {
   return new Promise((resolve, reject) => {
     const allArgs = [...getBaseYtDlpArgs(), ...args];
+    const hasCookies = allArgs.includes('--cookies');
+    
     execFile(YT_DLP_CMD, allArgs, {
       maxBuffer: 10 * 1024 * 1024,
       timeout: timeoutMs,
     }, (error, stdout, stderr) => {
       if (error) {
         console.error('yt-dlp stderr:', stderr);
-        reject(new Error(stderr || error.message));
+        let errMsg = stderr || error.message;
+        if (errMsg.includes('Sign in to confirm')) {
+           errMsg += hasCookies 
+             ? "\n\n[DEBUG: Cookies WERE successfully loaded from Render! But YouTube still rejected them. Your cookies might be expired, or you need to use a different YouTube account.]"
+             : "\n\n[DEBUG: COOKIES WERE NOT FOUND! You did not add the Secret File correctly in Render, or it's named wrong!]";
+        }
+        reject(new Error(errMsg));
         return;
       }
       resolve(stdout.trim());
