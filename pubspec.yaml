@@ -1,0 +1,27 @@
+name: youtube_downloader
+description: "VidGrab - Beautiful YouTube Video Downloader"
+publish_to: 'none'
+
+version: 1.0.0
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  provider: ^6.1.2
+  http: ^1.2.2
+  google_fonts: ^6.2.1
+  url_launcher: ^6.3.1
+  cupertino_icons: ^1.0.8
+  shimmer: ^3.0.0
+  shared_preferences: ^2.3.4
+  flutter_animate: ^4.5.2
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
