@@ -11,8 +11,9 @@ const YT_DLP_CMD = 'yt-dlp';
 function getBaseYtDlpArgs() {
   const args = [
     '--force-ipv4', // Often helps bypass IP bans
-    // Try to bypass the bot check by using iOS/Android clients
-    '--extractor-args', 'youtube:player_client=ios,android,web',
+    // The 'tv' client is currently the strongest bypass for bot detection
+    '--extractor-args', 'youtube:player_client=tv,web',
+    '--rm-cache-dir'
   ];
 
   // If you add a "Secret File" in Render named "cookies.txt", it mounts it here:
