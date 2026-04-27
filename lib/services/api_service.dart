@@ -1,10 +1,21 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:youtube_downloader/models/video_info.dart';
 
 class ApiService {
-  // Change this to your deployed backend URL
-  static const String baseUrl = 'http://localhost:3000';
+  // Gets backend URL depending on the environment
+  static String get baseUrl {
+    // Pass this via: flutter build web --dart-define=BACKEND_URL=https://your-api.com
+    const definedUrl = String.fromEnvironment('BACKEND_URL', defaultValue: '');
+    if (definedUrl.isNotEmpty) return definedUrl;
+
+    if (kReleaseMode) {
+      // Fallback for production if BACKEND_URL is not provided via dart-define.
+      return 'https://youtube-downloader-x6iq.onrender.com';
+    }
+    return 'http://localhost:3000';
+  }
 
   static Future<VideoInfo> fetchVideoInfo(String videoUrl) async {
     final response = await http.get(

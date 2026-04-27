@@ -73,10 +73,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                     ),
-                  ).animate().fadeIn(
-                    delay: 400.ms,
-                    duration: 600.ms,
-                  ).slideY(begin: 0.2, end: 0),
+                  )
+                      .animate()
+                      .fadeIn(
+                        delay: 400.ms,
+                        duration: 600.ms,
+                      )
+                      .slideY(begin: 0.2, end: 0),
                 ),
 
                 // Error Message
@@ -294,28 +297,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color:
-                        isDark
-                            ? const Color(0xFF6C63FF)
-                            : const Color(0xFF6C63FF),
+                    color: isDark
+                        ? const Color(0xFF6C63FF)
+                        : const Color(0xFF6C63FF),
                   ),
                 ),
               ],
             ),
-          ).animate().fadeIn(delay: 200.ms).scale(begin: const Offset(0.8, 0.8)),
+          )
+              .animate()
+              .fadeIn(delay: 200.ms)
+              .scale(begin: const Offset(0.8, 0.8)),
 
           const SizedBox(height: 24),
 
           // Title
           ShaderMask(
-            shaderCallback:
-                (bounds) => const LinearGradient(
-                  colors: [
-                    Color(0xFF6C63FF),
-                    Color(0xFFFF6584),
-                    Color(0xFF43E97B),
-                  ],
-                ).createShader(bounds),
+            shaderCallback: (bounds) => const LinearGradient(
+              colors: [
+                Color(0xFF6C63FF),
+                Color(0xFFFF6584),
+                Color(0xFF43E97B),
+              ],
+            ).createShader(bounds),
             child: Text(
               'Download YouTube Videos',
               textAlign: TextAlign.center,
@@ -327,9 +331,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ).animate().fadeIn(delay: 300.ms, duration: 600.ms).slideY(
-            begin: 0.2,
-            end: 0,
-          ),
+                begin: 0.2,
+                end: 0,
+              ),
 
           const SizedBox(height: 8),
 
@@ -343,9 +347,9 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 1.1,
             ),
           ).animate().fadeIn(delay: 350.ms, duration: 600.ms).slideY(
-            begin: 0.2,
-            end: 0,
-          ),
+                begin: 0.2,
+                end: 0,
+              ),
 
           const SizedBox(height: 20),
 
@@ -355,10 +359,9 @@ class _HomeScreenState extends State<HomeScreen> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: isMobile ? 15 : 17,
-              color:
-                  isDark
-                      ? Colors.white.withValues(alpha: 0.6)
-                      : Colors.black.withValues(alpha: 0.5),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.6)
+                  : Colors.black.withValues(alpha: 0.5),
               height: 1.6,
             ),
           ).animate().fadeIn(delay: 450.ms, duration: 600.ms),
@@ -377,20 +380,16 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             height: 200,
             decoration: BoxDecoration(
-              color:
-                  isDark
-                      ? Colors.white.withValues(alpha: 0.05)
-                      : Colors.black.withValues(alpha: 0.05),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.05)
+                  : Colors.black.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(16),
             ),
-          )
-              .animate(onPlay: (c) => c.repeat())
-              .shimmer(
+          ).animate(onPlay: (c) => c.repeat()).shimmer(
                 duration: 1500.ms,
-                color:
-                    isDark
-                        ? Colors.white.withValues(alpha: 0.1)
-                        : Colors.black.withValues(alpha: 0.1),
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.1)
+                    : Colors.black.withValues(alpha: 0.1),
               ),
           const SizedBox(height: 20),
           // Title shimmer
@@ -398,42 +397,34 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 24,
             width: double.infinity,
             decoration: BoxDecoration(
-              color:
-                  isDark
-                      ? Colors.white.withValues(alpha: 0.05)
-                      : Colors.black.withValues(alpha: 0.05),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.05)
+                  : Colors.black.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(8),
             ),
-          )
-              .animate(onPlay: (c) => c.repeat())
-              .shimmer(
+          ).animate(onPlay: (c) => c.repeat()).shimmer(
                 duration: 1500.ms,
                 delay: 200.ms,
-                color:
-                    isDark
-                        ? Colors.white.withValues(alpha: 0.1)
-                        : Colors.black.withValues(alpha: 0.1),
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.1)
+                    : Colors.black.withValues(alpha: 0.1),
               ),
           const SizedBox(height: 12),
           Container(
             height: 16,
             width: 200,
             decoration: BoxDecoration(
-              color:
-                  isDark
-                      ? Colors.white.withValues(alpha: 0.05)
-                      : Colors.black.withValues(alpha: 0.05),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.05)
+                  : Colors.black.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(8),
             ),
-          )
-              .animate(onPlay: (c) => c.repeat())
-              .shimmer(
+          ).animate(onPlay: (c) => c.repeat()).shimmer(
                 duration: 1500.ms,
                 delay: 400.ms,
-                color:
-                    isDark
-                        ? Colors.white.withValues(alpha: 0.1)
-                        : Colors.black.withValues(alpha: 0.1),
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.1)
+                    : Colors.black.withValues(alpha: 0.1),
               ),
         ],
       ),
@@ -488,21 +479,23 @@ class _HomeScreenState extends State<HomeScreen> {
             spacing: 20,
             runSpacing: 20,
             alignment: WrapAlignment.center,
-            children:
-                features.asMap().entries.map((entry) {
-                  return SizedBox(
-                    width: isMobile ? double.infinity : 260,
-                    child: FeatureCard(
-                      icon: entry.value['icon'] as IconData,
-                      title: entry.value['title'] as String,
-                      description: entry.value['desc'] as String,
-                      gradient: entry.value['gradient'] as List<Color>,
-                    ).animate().fadeIn(
+            children: features.asMap().entries.map((entry) {
+              return SizedBox(
+                width: isMobile ? double.infinity : 260,
+                child: FeatureCard(
+                  icon: entry.value['icon'] as IconData,
+                  title: entry.value['title'] as String,
+                  description: entry.value['desc'] as String,
+                  gradient: entry.value['gradient'] as List<Color>,
+                )
+                    .animate()
+                    .fadeIn(
                       delay: Duration(milliseconds: 600 + entry.key * 150),
                       duration: 500.ms,
-                    ).slideY(begin: 0.3, end: 0),
-                  );
-                }).toList(),
+                    )
+                    .slideY(begin: 0.3, end: 0),
+              );
+            }).toList(),
           ),
         ],
       ),
@@ -515,20 +508,18 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           Divider(
-            color:
-                isDark
-                    ? Colors.white.withValues(alpha: 0.1)
-                    : Colors.black.withValues(alpha: 0.1),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.1)
+                : Colors.black.withValues(alpha: 0.1),
           ),
           const SizedBox(height: 20),
           Text(
-            'Built with 💜 using Flutter & Node.js',
+            'Built with 💜 by SHARJEEL',
             style: TextStyle(
               fontSize: 13,
-              color:
-                  isDark
-                      ? Colors.white.withValues(alpha: 0.4)
-                      : Colors.black.withValues(alpha: 0.4),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.4)
+                  : Colors.black.withValues(alpha: 0.4),
             ),
           ),
           const SizedBox(height: 8),
@@ -536,10 +527,9 @@ class _HomeScreenState extends State<HomeScreen> {
             '© ${DateTime.now().year} VidGrab. For personal use only.',
             style: TextStyle(
               fontSize: 12,
-              color:
-                  isDark
-                      ? Colors.white.withValues(alpha: 0.3)
-                      : Colors.black.withValues(alpha: 0.3),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.3)
+                  : Colors.black.withValues(alpha: 0.3),
             ),
           ),
         ],
