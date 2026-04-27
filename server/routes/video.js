@@ -6,13 +6,14 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-// Use 'yt-dlp' directly since it is installed in our Docker PATH
-const YT_DLP_CMD = 'yt-dlp';
+// Use 'python' with module execution for local compatibility, works in Docker too
+const YT_DLP_CMD = 'python';
 function getBaseYtDlpArgs() {
   const args = [
+    '-m', 'yt_dlp',
     '--force-ipv4', // Often helps bypass IP bans
-    // The 'tv' client is currently the strongest bypass for bot detection
-    '--extractor-args', 'youtube:player_client=tv,web',
+    // Use android client (avoids the fake DRM errors that the TV client gets)
+    '--extractor-args', 'youtube:player_client=android,web',
     '--rm-cache-dir'
   ];
 
