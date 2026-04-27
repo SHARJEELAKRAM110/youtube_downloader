@@ -8,7 +8,17 @@ const os = require('os');
 
 // Use 'yt-dlp' directly since it is installed in our Docker PATH
 const YT_DLP_CMD = 'yt-dlp';
-const YT_DLP_ARGS = [];
+const YT_DLP_ARGS = [
+  // Try to bypass the bot check by using the Android client API
+  '--extractor-args', 'youtube:player_client=android,web',
+];
+
+// If you add a "Secret File" in Render named "cookies.txt", it mounts it here:
+const COOKIES_PATH = '/etc/secrets/cookies.txt';
+if (fs.existsSync(COOKIES_PATH)) {
+  console.log('Found cookies file, using it for authentication.');
+  YT_DLP_ARGS.push('--cookies', COOKIES_PATH);
+}
 
 /**
  * Helper: run yt-dlp with given args and return stdout as string
