@@ -502,6 +502,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+//sharjeel
   Widget _buildFooter(bool isDark) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
