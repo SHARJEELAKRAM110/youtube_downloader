@@ -15,9 +15,11 @@ const YT_DLP_ARGS = [
 
 // If you add a "Secret File" in Render named "cookies.txt", it mounts it here:
 const COOKIES_PATH = '/etc/secrets/cookies.txt';
+const TMP_COOKIES_PATH = path.join(os.tmpdir(), 'cookies.txt');
 if (fs.existsSync(COOKIES_PATH)) {
-  console.log('Found cookies file, using it for authentication.');
-  YT_DLP_ARGS.push('--cookies', COOKIES_PATH);
+  console.log('Found cookies file, copying to temp for authentication.');
+  fs.copyFileSync(COOKIES_PATH, TMP_COOKIES_PATH);
+  YT_DLP_ARGS.push('--cookies', TMP_COOKIES_PATH);
 }
 
 /**
@@ -233,7 +235,7 @@ router.get('/download', async (req, res) => {
 
     // Build yt-dlp command args — stream directly to stdout
     const dlpArgs = [
-      '-m', 'yt_dlp',
+      ...YT_DLP_ARGS,
       '-f', itag,
       '--no-playlist',
       '--no-warnings',
