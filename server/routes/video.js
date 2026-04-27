@@ -6,9 +6,9 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-// Use 'python -m yt_dlp' since yt-dlp exe may not be on PATH
-const YT_DLP_CMD = 'python';
-const YT_DLP_ARGS = ['-m', 'yt_dlp'];
+// Use 'yt-dlp' directly since it is installed in our Docker PATH
+const YT_DLP_CMD = 'yt-dlp';
+const YT_DLP_ARGS = [];
 
 /**
  * Helper: run yt-dlp with given args and return stdout as string
@@ -178,7 +178,7 @@ router.get('/info', async (req, res) => {
   } catch (error) {
     console.error('Error fetching video info:', error.message);
     res.status(500).json({
-      error: 'Failed to fetch video info. Please check the URL and try again.',
+      error: 'Failed to fetch video info: ' + error.message,
     });
   }
 });
