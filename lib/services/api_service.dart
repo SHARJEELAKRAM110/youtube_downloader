@@ -12,9 +12,12 @@ class ApiService {
 
     if (kReleaseMode) {
       // Fallback for production if BACKEND_URL is not provided via dart-define.
-      return 'https://youtube-downloader-x6iq.onrender.com';
+      return "https://youtubedownloader-production-42d8.up.railway.app";
+      //'https://youtube-downloader-x6iq.onrender.com';
     }
-    return 'http://localhost:3000';
+    // Change line 18 in api_service.dart to this:
+    return 'https://youtubedownloader-production-42d8.up.railway.app';
+    // return 'http://localhost:3000';
   }
 
   static Future<VideoInfo> fetchVideoInfo(String videoUrl) async {
