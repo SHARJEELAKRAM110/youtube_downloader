@@ -60,7 +60,7 @@ function runYtDlp(args, timeoutMs = 30000) {
         let errMsg = stderr || error.message;
         if (errMsg.includes('Sign in to confirm')) {
           errMsg += hasCookies ? "Something wents wrong" :
-            "\n\n[DEBUG: COOKIES WERE NOT FOUND! You did not add the Secret File correctly in Render, or it's named wrong!]";
+            "\n\n[DEBUG:Something wents wrong]";
         }
         reject(new Error(errMsg));
         return;
@@ -124,7 +124,7 @@ router.get('/info', async (req, res) => {
     // 1) Find all available video heights from video-only and combined streams
     const availableHeights = new Set();
     for (const f of allFormats) {
-      if (f.vcodec && f.vcodec !== 'none' && f.height && f.height >= 360) {
+      if (f.vcodec && f.vcodec !== 'none' && f.height && f.height >= 144) {
         availableHeights.add(f.height);
       }
     }
@@ -137,7 +137,7 @@ router.get('/info', async (req, res) => {
     const seenQualities = new Set();
 
     for (const format of combinedFormats) {
-      if (!format.height || format.height < 360) continue;
+      if (!format.height || format.height < 144) continue;
       const quality = `${format.height}p`;
       if (seenQualities.has(quality)) continue;
       seenQualities.add(quality);
@@ -155,7 +155,7 @@ router.get('/info', async (req, res) => {
 
     // 3) For heights that exist as video-only but NOT as combined, add them too
     //    These will need special handling (video-only download)
-    const targetHeights = [2160, 1440, 1080, 720, 480, 360];
+    const targetHeights = [2160, 1440, 1080, 720, 480, 360, 240, 144];
     for (const height of targetHeights) {
       const quality = `${height}p`;
       if (seenQualities.has(quality)) continue;
@@ -173,7 +173,7 @@ router.get('/info', async (req, res) => {
           quality: `${quality} (video only)`,
           format: videoOnly.ext || 'mp4',
           size: sizeBytes ? formatBytes(sizeBytes) : 'Size varies',
-          itag: String(videoOnly.format_id),
+          itag: `bestvideo[height=${height}]`,
           hasAudio: false,
           hasVideo: true,
         });
