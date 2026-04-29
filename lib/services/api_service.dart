@@ -35,6 +35,6 @@ class ApiService {
   }
 
   static String getDownloadUrl(String videoUrl, String itag) {
-    return '$baseUrl/api/video/download?url=${Uri.encodeComponent(videoUrl)}&itag=$itag';
+    return '$baseUrl/api/video/download?url=${Uri.encodeComponent(videoUrl)}&itag=${Uri.encodeComponent(itag)}';
   }
 }

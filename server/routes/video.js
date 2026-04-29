@@ -190,18 +190,18 @@ router.get('/info', async (req, res) => {
       const sizeBytes = bestAudio.filesize || bestAudio.filesize_approx || null;
       formats.push({
         quality: `${Math.round(bestAudio.abr || bestAudio.tbr || 128)}kbps`,
-        format: 'audio',
+        format: 'm4a',
         size: sizeBytes ? formatBytes(sizeBytes) : 'Size varies',
-        itag: 'bestaudio',
+        itag: 'bestaudio[ext=m4a]',
         hasAudio: true,
         hasVideo: false,
       });
     } else {
       formats.push({
         quality: '128kbps',
-        format: 'audio',
+        format: 'm4a',
         size: 'Size varies',
-        itag: 'bestaudio',
+        itag: 'bestaudio[ext=m4a]',
         hasAudio: true,
         hasVideo: false,
       });
@@ -254,12 +254,12 @@ router.get('/download', async (req, res) => {
       // Use default title
     }
 
-    const isAudio = itag === 'bestaudio';
-    const extension = isAudio ? 'webm' : 'mp4';
+    const isAudio = itag.includes('bestaudio');
+    const extension = isAudio ? 'm4a' : 'mp4';
     const filename = `${title}.${extension}`;
 
     res.header('Content-Disposition', contentDisposition(filename));
-    res.header('Content-Type', isAudio ? 'audio/webm' : 'video/mp4');
+    res.header('Content-Type', isAudio ? 'audio/mp4' : 'video/mp4');
 
     // Build yt-dlp command args — stream directly to stdout
     const dlpArgs = [
